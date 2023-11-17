@@ -1,3 +1,5 @@
+package bondarev;
+
 import java.util.Objects;
 
 public class Coordinates {
