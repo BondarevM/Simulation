@@ -3,12 +3,13 @@ package bondarev;
 import java.util.Objects;
 
 public class Coordinates {
-    public final Integer axisX;
-    public final Integer axisY;
+    public final int X;
+    public final int Y;
 
-    public Coordinates(int axisX, int axisY) {
-        this.axisX = axisX;
-        this.axisY = axisY;
+
+    public Coordinates(int X, int Y) {
+        this.X = X;
+        this.Y = Y;
     }
 
     @Override
@@ -16,11 +17,26 @@ public class Coordinates {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
-        return axisX == that.axisX && axisY == that.axisY;
+        return X == that.X && Y == that.Y;
+    }
+
+    public Coordinates shift(CoordinatesShift shift){
+        return new Coordinates(this.X + shift.Xshift, this.Y + shift.Yshift);
+    }
+
+    public boolean canShift(CoordinatesShift shift){
+        int x = X + shift.Xshift;
+        int y = Y + shift.Yshift;
+
+        if ((x < 0) || (x > 40)) return false;
+        if ((y < 0) || (y > 10)) return false;
+
+        return true;
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(axisX, axisY);
+        return Objects.hash(X, Y);
     }
 }

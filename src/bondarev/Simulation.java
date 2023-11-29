@@ -57,6 +57,10 @@ public class Simulation {
         return !Map.map.containsKey(coordinates);
     }
 
+
+
+
+
     public Entity getEntity(Coordinates coordinates) {
         return Map.map.get(coordinates);
     }
