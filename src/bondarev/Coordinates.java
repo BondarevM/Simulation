@@ -12,19 +12,12 @@ public class Coordinates {
         this.Y = Y;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coordinates that = (Coordinates) o;
-        return X == that.X && Y == that.Y;
-    }
 
-    public Coordinates shift(CoordinatesShift shift){
+    public Coordinates shift(CoordinatesShift shift) {
         return new Coordinates(this.X + shift.Xshift, this.Y + shift.Yshift);
     }
 
-    public boolean canShift(CoordinatesShift shift){
+    public boolean canShift(CoordinatesShift shift) {
         int x = X + shift.Xshift;
         int y = Y + shift.Yshift;
 
@@ -38,5 +31,12 @@ public class Coordinates {
     @Override
     public int hashCode() {
         return Objects.hash(X, Y);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return X == that.X && Y == that.Y;
     }
 }

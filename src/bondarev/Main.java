@@ -3,6 +3,7 @@ package bondarev;
 import bondarev.entities.Creature;
 import bondarev.entities.Entity;
 
+import java.util.Queue;
 import java.util.Set;
 
 public class Main {
@@ -15,9 +16,20 @@ public class Main {
 //
         simulation.render(simulation);
 
-        Entity entity = simulation.getEntity(new Coordinates(2,10));
+        Entity entity = simulation.getEntity(new Coordinates(1,0));
         Creature creature = (Creature) entity;
-        Set<Coordinates> availableCoordinatesToMove = creature.getAvailableMovesCells(simulation);
+
+//        Set<Coordinates> availableCoordinatesToMove = creature.getAvailableMovesCells(simulation);
+
+        BFS bfs = new BFS(creature);
+
+//        bfs.soutCreature();
+        bfs.findTarget(simulation);
+//
+        Queue<Coordinates> bfsqueue = bfs.queue;
+
+
+
 
     int a = 123;
 

@@ -45,17 +45,17 @@ public abstract class Creature extends Entity {
 
 
     public Set<CoordinatesShift> getCreatureMoves(){
-        Set<CoordinatesShift> abc = new HashSet<>();
-        abc.add(new CoordinatesShift(-1,1));
-        abc.add(new CoordinatesShift(0,1));
-        abc.add(new CoordinatesShift(1,1));
-        abc.add(new CoordinatesShift(1,0));
-        abc.add(new CoordinatesShift(1,-1));
-        abc.add(new CoordinatesShift(0,-1));
-        abc.add(new CoordinatesShift(-1,-1));
-        abc.add(new CoordinatesShift(-1,0));
+        Set<CoordinatesShift> shifts = new HashSet<>();
+        shifts.add(new CoordinatesShift(-1,1));
+        shifts.add(new CoordinatesShift(0,1));
+        shifts.add(new CoordinatesShift(1,1));
+        shifts.add(new CoordinatesShift(1,0));
+        shifts.add(new CoordinatesShift(1,-1));
+        shifts.add(new CoordinatesShift(0,-1));
+        shifts.add(new CoordinatesShift(-1,-1));
+        shifts.add(new CoordinatesShift(-1,0));
 
-        return abc;
+        return shifts;
     }
 
 }

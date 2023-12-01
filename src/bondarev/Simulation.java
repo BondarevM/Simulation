@@ -60,7 +60,6 @@ public class Simulation {
 
 
 
-
     public Entity getEntity(Coordinates coordinates) {
         return Map.map.get(coordinates);
     }
