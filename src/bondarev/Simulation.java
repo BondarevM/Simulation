@@ -91,6 +91,8 @@ public class Simulation {
     }
 
 
+
+
     public void setupDefaultEntitiesPosition() {
         for (int y = 10; y >= 0; y--) {
             for (int x = 0; x <= 40; x++) {
@@ -194,6 +196,9 @@ public class Simulation {
                 }
 
                 //Set Grasses
+                if (x == 2 && y == 2) {
+                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+                }
                 if (x == 0 && y == 7) {
                     setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
                 }

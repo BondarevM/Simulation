@@ -22,17 +22,17 @@ public abstract class Creature extends Entity {
 
     abstract void findTarget();
 
-    public boolean isCellAvailableToMove(Coordinates coordinates, Simulation simulation){
+    public boolean isCellAvailableToMove(Coordinates coordinates, Simulation simulation) {
         return simulation.isCellEmpty(coordinates) || !((simulation.getEntity(coordinates) instanceof StaticEntities));
     }
 
     public Set<Coordinates> getAvailableMovesCells(Simulation simulation) {
         Set<Coordinates> result = new HashSet<>();
 
-        for (CoordinatesShift shift : getCreatureMoves()){
-            if(coordinates.canShift(shift)){
+        for (CoordinatesShift shift : getCreatureMoves()) {
+            if (coordinates.canShift(shift)) {
                 Coordinates newCoordinates = coordinates.shift(shift);
-                if (isCellAvailableToMove(newCoordinates, simulation )){
+                if (isCellAvailableToMove(newCoordinates, simulation)) {
                     result.add(newCoordinates);
                 }
 
@@ -41,19 +41,15 @@ public abstract class Creature extends Entity {
         return result;
     }
 
-    ;
 
 
-    public Set<CoordinatesShift> getCreatureMoves(){
+
+    public Set<CoordinatesShift> getCreatureMoves() {
         Set<CoordinatesShift> shifts = new HashSet<>();
-        shifts.add(new CoordinatesShift(-1,1));
-        shifts.add(new CoordinatesShift(0,1));
-        shifts.add(new CoordinatesShift(1,1));
-        shifts.add(new CoordinatesShift(1,0));
-        shifts.add(new CoordinatesShift(1,-1));
-        shifts.add(new CoordinatesShift(0,-1));
-        shifts.add(new CoordinatesShift(-1,-1));
-        shifts.add(new CoordinatesShift(-1,0));
+        shifts.add(new CoordinatesShift(0, 1));
+        shifts.add(new CoordinatesShift(1, 0));
+        shifts.add(new CoordinatesShift(0, -1));
+        shifts.add(new CoordinatesShift(-1, 0));
 
         return shifts;
     }

@@ -22,11 +22,12 @@ public class Main {
 //        Set<Coordinates> availableCoordinatesToMove = creature.getAvailableMovesCells(simulation);
 
         BFS bfs = new BFS(creature);
+//        System.out.println(creature);
 
-//        bfs.soutCreature();
-        bfs.findTarget(simulation);
+        Coordinates iskomieCoordinati = bfs.findTarget(simulation);
 //
         Queue<Coordinates> bfsqueue = bfs.queue;
+
 
 
 
