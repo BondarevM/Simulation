@@ -2,7 +2,6 @@ package bondarev.entities;
 
 import bondarev.Coordinates;
 import bondarev.CoordinatesShift;
-import bondarev.Map;
 import bondarev.Simulation;
 
 import java.util.HashSet;

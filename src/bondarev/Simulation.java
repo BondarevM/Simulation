@@ -54,19 +54,19 @@ public class Simulation {
 
 
     public boolean isCellEmpty(Coordinates coordinates) {
-        return !Map.map.containsKey(coordinates);
+        return !Mapp.myMap.containsKey(coordinates);
     }
 
 
 
 
     public Entity getEntity(Coordinates coordinates) {
-        return Map.map.get(coordinates);
+        return Mapp.myMap.get(coordinates);
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
         entity.coordinates = coordinates;
-        Map.map.put(coordinates, entity);
+        Mapp.myMap.put(coordinates, entity);
     }
 
 

@@ -3,6 +3,7 @@ package bondarev;
 import bondarev.entities.Creature;
 import bondarev.entities.Entity;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -22,11 +23,9 @@ public class Main {
 //        Set<Coordinates> availableCoordinatesToMove = creature.getAvailableMovesCells(simulation);
 
         BFS bfs = new BFS(creature);
-//        System.out.println(creature);
 
-        Coordinates iskomieCoordinati = bfs.findTarget(simulation);
-//
-        Queue<Coordinates> bfsqueue = bfs.queue;
+
+        List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
 
 
 
