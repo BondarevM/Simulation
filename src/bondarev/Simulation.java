@@ -77,7 +77,7 @@ public class Simulation {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-//                System.out.print("\033[H\033[2J");
+
                 for (int i = 0; i < 20; i++) {
                     System.out.println(" ");
                 }
@@ -98,6 +98,9 @@ public class Simulation {
             for (int x = 0; x <= 40; x++) {
 
                 //Set Predators
+                if (x == 0 && y == 2) {
+                    setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
+                }
                 if (x == 5 && y == 4) {
                     setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
                 }

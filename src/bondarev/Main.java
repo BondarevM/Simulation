@@ -18,14 +18,20 @@ public class Main {
         simulation.render(simulation);
 
         Entity entity = simulation.getEntity(new Coordinates(1,0));
-        Creature creature = (Creature) entity;
+        Entity entity1 = simulation.getEntity(new Coordinates(0,2));
+
+        Creature herbivore = (Creature) entity;
+        Creature predator = (Creature) entity1;
+
 
 //        Set<Coordinates> availableCoordinatesToMove = creature.getAvailableMovesCells(simulation);
 
-        BFS bfs = new BFS(creature);
+        BFS bfsForHerbivore = new BFS(herbivore);
+        BFS bfsForPredator = new BFS(predator);
 
 
-        List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
+        List<Coordinates> traceForHerbivore = bfsForHerbivore.findShortestPathToTarget(simulation);
+        List<Coordinates> traceForPredator = bfsForPredator.findShortestPathToTarget(simulation);
 
 
 

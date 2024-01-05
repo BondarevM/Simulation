@@ -3,19 +3,29 @@ package bondarev;
 import bondarev.Coordinates;
 import bondarev.Mapp;
 import bondarev.Simulation;
-import bondarev.entities.Creature;
-import bondarev.entities.Grass;
-import bondarev.entities.Herbivore;
+import bondarev.entities.*;
 
 import java.util.*;
 import java.util.Map;
 
 public class BFS {
     Creature creature;
+    Object typeOfOurTarget = new Object();
+    Class<?> abc = typeOfOurTarget.getClass();
+
 
     BFS(Creature creature) {
         this.creature = creature;
+
+        if (creature instanceof Herbivore){
+            typeOfOurTarget = new Grass(creature.coordinates);
+        }
+        if (creature instanceof Predator){
+            typeOfOurTarget = new Herbivore(creature.coordinates,3,1);
+        }
+
     }
+
 
     Queue<Coordinates> q = new LinkedList<>();
     Map<Coordinates, Coordinates> parentMap = new HashMap<>(); // Добавлено для хранения родительских координат
@@ -28,7 +38,9 @@ public class BFS {
             Coordinates currentCoordinate = q.remove();
 
             if (!checkedCoordinates.contains(currentCoordinate)) {
-                if (Mapp.myMap.get(currentCoordinate) instanceof Grass) {
+                //Mapp.myMap.get(currentCoordinate) instanceof Grass
+
+                if (typeOfOurTarget.getClass().isInstance(Mapp.myMap.get(currentCoordinate))) {
                     // Если найдена трава, строим и возвращаем путь
                     return buildPath(currentCoordinate);
 
