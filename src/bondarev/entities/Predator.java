@@ -4,6 +4,7 @@ import bondarev.Coordinates;
 import bondarev.CoordinatesShift;
 import bondarev.Simulation;
 
+import java.util.Map;
 import java.util.Set;
 
 public class Predator extends Creature {
@@ -14,8 +15,9 @@ public class Predator extends Creature {
 
     int powerOfAttack;
     @Override
-    void makeMove() {
-    }
+    public void makeMove(Simulation simulation) {
+
+    };
 
     void makeAttack (){
     }

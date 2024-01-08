@@ -1,10 +1,12 @@
 package bondarev.entities;
 
+import bondarev.BFS;
 import bondarev.Coordinates;
 import bondarev.CoordinatesShift;
 import bondarev.Simulation;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class Creature extends Entity {
@@ -17,7 +19,7 @@ public abstract class Creature extends Entity {
         this.speed = speed;
     }
 
-    abstract void makeMove();
+      abstract public void makeMove(Simulation simulation);
 
     abstract void findTarget();
 

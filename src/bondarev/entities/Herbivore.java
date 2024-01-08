@@ -1,10 +1,10 @@
 package bondarev.entities;
 
-import bondarev.BFS;
-import bondarev.Coordinates;
-import bondarev.CoordinatesShift;
-import bondarev.Simulation;
+import bondarev.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Herbivore extends Creature {
@@ -15,8 +15,24 @@ public class Herbivore extends Creature {
     }
 
     @Override
-    public void makeMove() {
+    public void makeMove(Simulation simulation) {
+       Map<Coordinates, Entity> copiedMap = new HashMap<>(Mapp.myMap);
 
+        BFS bfs = new BFS(this);
+        List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
+        Coordinates коогдитатыКролика = this.coordinates;
+
+
+        int abc = 1;
+
+        copiedMap.remove(this.coordinates);
+        this.coordinates=trace.get(0);
+        copiedMap.put(trace.get(0),this);
+
+        int abc1 = 1;
+        Mapp.myMap = copiedMap;
+
+        int abc2 = 1;
 
     }
 
@@ -33,8 +49,6 @@ public class Herbivore extends Creature {
 //    protected Set<CoordinatesShift> getCreatureMoves() {
 //        return null;
 //    }
-
-
 
 
 }

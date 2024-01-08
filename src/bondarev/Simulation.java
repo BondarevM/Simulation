@@ -1,5 +1,6 @@
 package bondarev;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,8 +59,6 @@ public class Simulation {
     }
 
 
-
-
     public Entity getEntity(Coordinates coordinates) {
         return Mapp.myMap.get(coordinates);
     }
@@ -67,6 +66,10 @@ public class Simulation {
     public void setEntity(Coordinates coordinates, Entity entity) {
         entity.coordinates = coordinates;
         Mapp.myMap.put(coordinates, entity);
+    }
+
+    public void removeEntity(Coordinates coordinates) {
+        Mapp.myMap.remove(coordinates);
     }
 
 
@@ -78,19 +81,32 @@ public class Simulation {
             @Override
             public void run() {
 
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 1; i++) {
                     System.out.println(" ");
                 }
 
 
                 // Ваш код, который нужно выполнить каждую секунду
                 new Simulation().render(new Simulation());
+                makeAction();
             }
         };
-        timer.scheduleAtFixedRate(task, 0, 2000);
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
+    public void makeAction() {
+        for (Map.Entry<Coordinates, Entity> entry : Mapp.myMap.entrySet()) {
+            Coordinates coordinates = entry.getKey();
+            Entity entity = entry.getValue();
 
+            if (entity instanceof Creature) {
+                ((Creature) entity).makeMove(this);
+            }
+
+
+        }
+
+    }
 
 
     public void setupDefaultEntitiesPosition() {
@@ -112,30 +128,31 @@ public class Simulation {
                 }
 
                 //Set Herbivores
-                if (x == 2 && y == 10) {
+                if (x == 0 && y == 4) {
                     setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
                 }
-                if (x == 16 && y == 9) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 33 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 1 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 11 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 30 && y == 6) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 30 && y == 6) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-                if (x == 40 && y == 4) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
+//                if (x == 2 && y == 10) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//                if (x == 16 && y == 9) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//                if (x == 33 && y == 0) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//
+//                if (x == 11 && y == 2) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//                if (x == 30 && y == 6) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//                if (x == 30 && y == 6) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
+//                if (x == 40 && y == 4) {
+//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
+//                }
 
                 //Set Trees
                 if (x == 5 && y == 10) {
@@ -164,6 +181,29 @@ public class Simulation {
                 }
 
                 //Set Rocks
+                if (x == 2 && y == 3) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+                if (x == 3 && y == 3)
+
+                if (x == 3 && y == 1) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+                if (x == 2 && y == 1) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+                if (x == 1 && y == 1) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+                if (x == 1 && y == 2) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+                if (x == 1 && y == 3) {
+                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
+                }
+
+
+
                 if (x == 0 && y == 10) {
                     setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
                 }
@@ -199,42 +239,43 @@ public class Simulation {
                 }
 
                 //Set Grasses
-                if (x == 2 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 0 && y == 7) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 10 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 24 && y == 10) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 28 && y == 5) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 25 && y == 7) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
                 if (x == 40 && y == 10) {
                     setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
                 }
-                if (x == 30 && y == 2) {
+                if (x == 2 && y == 2) {
                     setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
                 }
-                if (x == 16 && y == 5) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 19 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 9 && y == 6) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 37 && y == 3) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
+//                if (x == 0 && y == 7) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 10 && y == 0) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 24 && y == 10) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 28 && y == 5) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 25 && y == 7) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//
+//                if (x == 30 && y == 2) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 16 && y == 5) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 19 && y == 0) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 9 && y == 6) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
+//                if (x == 37 && y == 3) {
+//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
+//                }
 
 
             }
