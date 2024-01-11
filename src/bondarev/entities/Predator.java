@@ -1,11 +1,8 @@
 package bondarev.entities;
 
-import bondarev.Coordinates;
-import bondarev.CoordinatesShift;
-import bondarev.Simulation;
+import bondarev.*;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Predator extends Creature {
     public Predator(Coordinates coordinates, Integer health, Integer speed, int powerOfAttack) {
@@ -14,26 +11,25 @@ public class Predator extends Creature {
     }
 
     int powerOfAttack;
+
     @Override
     public void makeMove(Simulation simulation) {
-
-    };
-
-    void makeAttack (){
+        try {
+            super.makeMove(simulation);
+        } catch (NullPointerException e) {
+        }
     }
 
     @Override
-    void findTarget() {
-
+    public Set<Coordinates> getAvailableMovesCells(Simulation simulation) {
+        Set<Coordinates> availableMovesCells = super.getAvailableMovesCells(simulation);
+        Set<Coordinates> copidedAvailableMovesCells = new HashSet<>(availableMovesCells);
+        for (Coordinates cell : availableMovesCells) {
+            if (Mapp.myMap.get(cell) instanceof Grass || Mapp.myMap.get(cell) instanceof Predator) {
+                copidedAvailableMovesCells.remove(cell);
+            }
+        }
+        availableMovesCells = copidedAvailableMovesCells;
+        return availableMovesCells;
     }
-//    @Override
-//    protected Set<Coordinates> getAvailableMovesCells(Simulation simulation){
-//
-//    }
-
-
-//    @Override
-//    protected Set<CoordinatesShift> getCreatureMoves() {
-//        return null;
-//    }
 }

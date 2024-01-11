@@ -1,13 +1,8 @@
 package bondarev.entities;
 
-import bondarev.BFS;
-import bondarev.Coordinates;
-import bondarev.CoordinatesShift;
-import bondarev.Simulation;
+import bondarev.*;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Creature extends Entity {
     public final Integer health;
@@ -19,31 +14,35 @@ public abstract class Creature extends Entity {
         this.speed = speed;
     }
 
-      abstract public void makeMove(Simulation simulation);
+      public void makeMove(Simulation simulation){
 
-    abstract void findTarget();
+          BFS bfs = new BFS(this);
+          List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
+          Map<Coordinates, Entity> copiedMap = new HashMap<>(Mapp.myMap);
+          copiedMap.remove(this.coordinates);
+          this.coordinates=trace.get(0);
+          copiedMap.put(trace.get(0),this);
 
+
+          Mapp.myMap = copiedMap;
+      }
     public boolean isCellAvailableToMove(Coordinates coordinates, Simulation simulation) {
         return simulation.isCellEmpty(coordinates) || !((simulation.getEntity(coordinates) instanceof StaticEntities));
     }
 
     public Set<Coordinates> getAvailableMovesCells(Simulation simulation) {
         Set<Coordinates> result = new HashSet<>();
-
+        int a = 1;
         for (CoordinatesShift shift : getCreatureMoves()) {
             if (coordinates.canShift(shift)) {
                 Coordinates newCoordinates = coordinates.shift(shift);
                 if (isCellAvailableToMove(newCoordinates, simulation)) {
                     result.add(newCoordinates);
                 }
-
             }
         }
         return result;
     }
-
-
-
 
     public Set<CoordinatesShift> getCreatureMoves() {
         Set<CoordinatesShift> shifts = new HashSet<>();
@@ -54,5 +53,4 @@ public abstract class Creature extends Entity {
 
         return shifts;
     }
-
 }

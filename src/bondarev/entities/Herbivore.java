@@ -2,53 +2,40 @@ package bondarev.entities;
 
 import bondarev.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Herbivore extends Creature {
-
-
     public Herbivore(Coordinates coordinates, Integer health, Integer speed) {
         super(coordinates, health, speed);
     }
 
     @Override
     public void makeMove(Simulation simulation) {
-       Map<Coordinates, Entity> copiedMap = new HashMap<>(Mapp.myMap);
+        try {
+            BFS bfs = new BFS(this);
+            List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
+            Map<Coordinates, Entity> copiedMap = new HashMap<>(Mapp.myMap);
 
-        BFS bfs = new BFS(this);
-        List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
-        Coordinates коогдитатыКролика = this.coordinates;
-
-
-        int abc = 1;
-
-        copiedMap.remove(this.coordinates);
-        this.coordinates=trace.get(0);
-        copiedMap.put(trace.get(0),this);
-
-        int abc1 = 1;
-        Mapp.myMap = copiedMap;
-
-        int abc2 = 1;
-
+            if (!(Mapp.myMap.get(this.coordinates) instanceof Predator)) {
+                copiedMap.remove(this.coordinates);
+            }
+            this.coordinates = trace.get(0);
+            copiedMap.put(trace.get(0), this);
+            Mapp.myMap = copiedMap;
+        } catch (NullPointerException e) {
+        }
     }
 
     @Override
-    void findTarget() {
-
+    public Set<Coordinates> getAvailableMovesCells(Simulation simulation) {
+        Set<Coordinates> availableMovesCells = super.getAvailableMovesCells(simulation);
+        Set<Coordinates> copidedAvailableMovesCells = new HashSet<>(availableMovesCells);
+        for (Coordinates cell : availableMovesCells) {
+            if (Mapp.myMap.get(cell) instanceof Predator || Mapp.myMap.get(cell) instanceof Herbivore) {
+                copidedAvailableMovesCells.remove(cell);
+            }
+        }
+        availableMovesCells = copidedAvailableMovesCells;
+        return availableMovesCells;
     }
-//    @Override
-//    public boolean isCellAvailableToMove(Coordinates coordinates, Simulation simulation){
-//        super(getAvailableMovesCells())
-//    }
-
-//    @Override
-//    protected Set<CoordinatesShift> getCreatureMoves() {
-//        return null;
-//    }
-
-
 }

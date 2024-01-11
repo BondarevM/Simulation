@@ -25,7 +25,6 @@ public class Coordinates {
         if ((y < 0) || (y > 10)) return false;
 
         return true;
-
     }
 
     @Override

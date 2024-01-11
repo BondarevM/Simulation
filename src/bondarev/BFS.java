@@ -12,9 +12,6 @@ public class BFS {
     Creature creature;
     Object typeOfOurTarget = new Object();
 
-    //    Class<?> abc = typeOfOurTarget.getClass();
-//
-//
     public BFS(Creature creature) {
         this.creature = creature;
 
@@ -28,7 +25,7 @@ public class BFS {
     }
 
     Queue<Coordinates> q = new LinkedList<>();
-    Map<Coordinates, Coordinates> parentMap = new HashMap<>(); // Добавлено для хранения родительских координат
+    Map<Coordinates, Coordinates> parentMap = new HashMap<>();
 
     public List<Coordinates> findShortestPathToTarget(Simulation simulation) {
         Set<Coordinates> checkedCoordinates = new HashSet<>();
@@ -37,38 +34,37 @@ public class BFS {
 
         while (!q.isEmpty()) {
             Coordinates currentCoordinate = q.remove();
-            int a = 1;
             if (!checkedCoordinates.contains(currentCoordinate)) {
-//                Mapp.myMap.get(currentCoordinate) instanceof Grass
-//                 (typeOfOurTarget.getClass().isInstance(Mapp.myMap.get(currentCoordinate)))
 
                 if (typeOfOurTarget.getClass().isInstance(Mapp.myMap.get(currentCoordinate))) {
-                    // Если найдена трава, строим и возвращаем путь
-                    List<Coordinates> path = buildPath(currentCoordinate);
-                    int a2 = 1;
 
+                    List<Coordinates> path = buildPath(currentCoordinate);
                     return path;
 
                 } else {
-                    Herbivore herbivoreForTest = new Herbivore(currentCoordinate, 1, 3);
+                    Creature creatureFortest = new Predator(currentCoordinate, 1, 3, 1);
+
+                    if (this.creature instanceof Herbivore) {
+                        creatureFortest = new Herbivore(currentCoordinate, 1, 3);
+                    }
+                    if (this.creature instanceof Predator) {
+                        creatureFortest = new Predator(currentCoordinate, 1, 3, 1);
+                    }
+
                     checkedCoordinates.add(currentCoordinate);
-                    int aa = 1;
 
-                    for (Coordinates neighborCoordinate : herbivoreForTest.getAvailableMovesCells(simulation)) {
-
+                    for (Coordinates neighborCoordinate : creatureFortest.getAvailableMovesCells(simulation)) {
                         if (!checkedCoordinates.contains(neighborCoordinate)) {
                             q.add(neighborCoordinate);
                             parentMap.put(neighborCoordinate, currentCoordinate); // Сохраняем родительскую координату
                         }
                     }
 
-                    herbivoreForTest = null;
+                    creatureFortest = null;
                 }
             }
         }
-
-        return null; // Если Grass не найдена, возвращаем null
-
+        return null;
     }
 
     private List<Coordinates> buildPath(Coordinates targetCoordinate) {
@@ -77,28 +73,9 @@ public class BFS {
         while (targetCoordinate != creature.coordinates) {
             path.add(targetCoordinate);
             targetCoordinate = parentMap.get(targetCoordinate);
-            Coordinates координатыЕбаногоКролика = creature.coordinates;
-            int a = 1;
-
         }
 
         Collections.reverse(path);
         return path;
-
-//        List<Coordinates> path = new ArrayList<>();
-//        Coordinates current = targetCoordinate;
-//
-//
-//        while (!(current != null && path.contains(current))) {
-//            path.add(current);
-//            current = parentMap.get(current);
-//
-//        }
-//
-//        Collections.reverse(path);
-//        return path;
-
     }
-
-
 }

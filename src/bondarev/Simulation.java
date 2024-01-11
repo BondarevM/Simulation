@@ -1,21 +1,17 @@
 package bondarev;
 
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import bondarev.entities.*;
 
-
 public class Simulation {
     private String halfOfSpace = " ";
-    private final String EMPTY_CELL = " ▫ " + halfOfSpace;
+    private final String EMPTY_CELL = " □ " + halfOfSpace;
     private final String PREDATOR_CELL = " \uD83E\uDD81 ";
     private final String HERBIVORE_CELL = " \uD83D\uDC07 ";
     private final String TREE_CELL = " \uD83C\uDF33 ";
     private final String ROCK_CELL = " ⛰ ";
-    private final String GRASS_CELL = " \uD83C\uDF3F ";
-
+    private final String GRASS_CELL = " ✿ ";
 
     public void render(Simulation simulation) {
         for (int y = 10; y >= 0; y--) {
@@ -31,7 +27,6 @@ public class Simulation {
             }
             System.out.println(line);
         }
-
     }
 
     private String getEntityImage(Entity entity) {
@@ -53,11 +48,9 @@ public class Simulation {
         return "";
     }
 
-
     public boolean isCellEmpty(Coordinates coordinates) {
         return !Mapp.myMap.containsKey(coordinates);
     }
-
 
     public Entity getEntity(Coordinates coordinates) {
         return Mapp.myMap.get(coordinates);
@@ -68,14 +61,71 @@ public class Simulation {
         Mapp.myMap.put(coordinates, entity);
     }
 
+    public void checkingNumberOfCreatures() {
+        List<Entity> listOfHerbivores = new ArrayList<>();
+        List<Entity> listOfGrasses = new ArrayList<>();
+
+        for (Map.Entry<Coordinates, Entity> entry : Mapp.myMap.entrySet()) {
+            if (entry.getValue() instanceof Herbivore) {
+                listOfHerbivores.add(entry.getValue());
+            }
+            if (entry.getValue() instanceof Grass) {
+                listOfGrasses.add(entry.getValue());
+            }
+        }
+
+        if (listOfHerbivores.size() < 3) {
+            setHerbivores();
+        }
+
+        if (listOfGrasses.size() < 3) {
+            setGrasses();
+        }
+    }
+
+    public int getRandomNumberX(){
+        return (int) ((Math.random() * (40 - 0)) + 0);
+    }
+    public int getRandomNumberY(){
+        return (int) ((Math.random() * (10 - 0)) + 0);
+    }
+
+    private void setGrasses() {
+        int counter = 0;
+
+        while (counter != 3){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
+                counter++;
+            }
+        }
+    }
+
+    private void setHerbivores() {
+        int counter = 0;
+
+        while (counter != 3){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
+                counter++;
+            }
+        }
+
+    }
+
     public void removeEntity(Coordinates coordinates) {
         Mapp.myMap.remove(coordinates);
     }
 
-
     public void gameLoop() {
-
-
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -85,13 +135,12 @@ public class Simulation {
                     System.out.println(" ");
                 }
 
-
-                // Ваш код, который нужно выполнить каждую секунду
                 new Simulation().render(new Simulation());
+                checkingNumberOfCreatures();
                 makeAction();
             }
         };
-        timer.scheduleAtFixedRate(task, 0, 1000);
+        timer.scheduleAtFixedRate(task, 0, 2000);
     }
 
     public void makeAction() {
@@ -102,185 +151,89 @@ public class Simulation {
             if (entity instanceof Creature) {
                 ((Creature) entity).makeMove(this);
             }
-
-
         }
-
     }
 
-
     public void setupDefaultEntitiesPosition() {
-        for (int y = 10; y >= 0; y--) {
-            for (int x = 0; x <= 40; x++) {
+        setDefaultHerbivoresPosition();
+        setDefaultPredatorsPosition();
+        setDefaultGrassesPosition();
+        setDefaultRocksPosition();
+        setDefaultTreesPosition();
+    }
 
-                //Set Predators
-                if (x == 0 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
-                }
-                if (x == 5 && y == 4) {
-                    setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
-                }
-                if (x == 24 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
-                }
-                if (x == 36 && y == 9) {
-                    setEntity(new Coordinates(x, y), new Predator(new Coordinates(x, y), 5, 1, 1));
-                }
+    private void setDefaultTreesPosition() {
+        int counter = 0;
 
-                //Set Herbivores
-                if (x == 0 && y == 4) {
-                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-                }
-//                if (x == 2 && y == 10) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//                if (x == 16 && y == 9) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//                if (x == 33 && y == 0) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//
-//                if (x == 11 && y == 2) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//                if (x == 30 && y == 6) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//                if (x == 30 && y == 6) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
-//                if (x == 40 && y == 4) {
-//                    setEntity(new Coordinates(x, y), new Herbivore(new Coordinates(x, y), 3, 1));
-//                }
+        while (counter != 10){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Tree(new Coordinates(X, Y)));
+                counter++;
+            }
+        }
+    }
 
-                //Set Trees
-                if (x == 5 && y == 10) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 17 && y == 8) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 27 && y == 4) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 13 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 2 && y == 0) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 22 && y == 6) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 35 && y == 7) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
-                if (x == 14 && y == 5) {
-                    setEntity(new Coordinates(x, y), new Tree(new Coordinates(x, y)));
-                }
+    private void setDefaultRocksPosition() {
+        int counter = 0;
 
-                //Set Rocks
-                if (x == 2 && y == 3) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 3 && y == 3)
+        while (counter != 10){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Rock(new Coordinates(X, Y)));
+                counter++;
+            }
+        }
+    }
 
-                if (x == 3 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 2 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 1 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 1 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 1 && y == 3) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
+    private void setDefaultGrassesPosition() {
+        int counter = 0;
 
+        while (counter != 7){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
+                counter++;
+            }
+        }
+    }
 
+    private void setDefaultPredatorsPosition() {
+        int counter = 0;
 
-                if (x == 0 && y == 10) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 13 && y == 9) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 7 && y == 7) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 5 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 23 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 35 && y == 4) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 39 && y == 1) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 30 && y == 9) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 19 && y == 3) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 22 && y == 8) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
-                if (x == 0 && y == 3) {
-                    setEntity(new Coordinates(x, y), new Rock(new Coordinates(x, y)));
-                }
+        while (counter != 5){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Predator(new Coordinates(X, Y), 3, 1,1));
+                counter++;
+            }
+        }
+    }
 
-                //Set Grasses
-                if (x == 40 && y == 10) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-                if (x == 2 && y == 2) {
-                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-                }
-//                if (x == 0 && y == 7) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 10 && y == 0) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 24 && y == 10) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 28 && y == 5) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 25 && y == 7) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//
-//                if (x == 30 && y == 2) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 16 && y == 5) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 19 && y == 0) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 9 && y == 6) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
-//                if (x == 37 && y == 3) {
-//                    setEntity(new Coordinates(x, y), new Grass(new Coordinates(x, y)));
-//                }
+    private void setDefaultHerbivoresPosition() {
+        int counter = 0;
 
-
+        while (counter != 5){
+            int X;
+            int Y;
+            X = getRandomNumberX();
+            Y = getRandomNumberY();
+            if(isCellEmpty(new Coordinates(X,Y))){
+                setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
+                counter++;
             }
         }
     }
 }
-
-

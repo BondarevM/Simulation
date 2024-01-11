@@ -13,15 +13,5 @@ public class Main {
         simulation.setupDefaultEntitiesPosition();
 
        simulation.gameLoop();
-
-//        simulation.render(simulation);
-//        Entity entity = simulation.getEntity(new Coordinates(1, 0));
-//        Creature herbivore = (Creature) entity;
-//        BFS bfsForHerbivore = new BFS(herbivore);
-//        List<Coordinates> traceForHerbivore = bfsForHerbivore.findShortestPathToTarget(simulation);
-
-        int a = 123;
-
-//        simulation.gameLoop();
     }
 }
