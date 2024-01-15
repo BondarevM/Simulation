@@ -1,7 +1,5 @@
 package bondarev;
 
-import java.util.Objects;
-
 public class CoordinatesShift {
     public final int Xshift;
 

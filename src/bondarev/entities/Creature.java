@@ -14,25 +14,24 @@ public abstract class Creature extends Entity {
         this.speed = speed;
     }
 
-      public void makeMove(Simulation simulation){
+    public void makeMove(Simulation simulation) {
 
-          BFS bfs = new BFS(this);
-          List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
-          Map<Coordinates, Entity> copiedMap = new HashMap<>(Mapp.myMap);
-          copiedMap.remove(this.coordinates);
-          this.coordinates=trace.get(0);
-          copiedMap.put(trace.get(0),this);
+        BFS bfs = new BFS(this);
+        List<Coordinates> trace = bfs.findShortestPathToTarget(simulation);
+        java.util.Map<Coordinates, Entity> copiedMap = simulation.MAP.getCopiedMap();
+        copiedMap.remove(this.coordinates);
+        this.coordinates = trace.get(0);
+        copiedMap.put(trace.get(0), this);
 
+        simulation.MAP.equatingMaps(copiedMap);
+    }
 
-          Mapp.myMap = copiedMap;
-      }
     public boolean isCellAvailableToMove(Coordinates coordinates, Simulation simulation) {
-        return simulation.isCellEmpty(coordinates) || !((simulation.getEntity(coordinates) instanceof StaticEntities));
+        return simulation.MAP.isCellEmpty(coordinates) || !((simulation.MAP.getEntity(coordinates) instanceof StaticEntities));
     }
 
     public Set<Coordinates> getAvailableMovesCells(Simulation simulation) {
         Set<Coordinates> result = new HashSet<>();
-        int a = 1;
         for (CoordinatesShift shift : getCreatureMoves()) {
             if (coordinates.canShift(shift)) {
                 Coordinates newCoordinates = coordinates.shift(shift);

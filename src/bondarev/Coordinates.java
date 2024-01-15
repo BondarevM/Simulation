@@ -31,6 +31,7 @@ public class Coordinates {
     public int hashCode() {
         return Objects.hash(X, Y);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

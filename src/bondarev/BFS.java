@@ -1,12 +1,8 @@
 package bondarev;
 
-import bondarev.Coordinates;
-import bondarev.Mapp;
-import bondarev.Simulation;
 import bondarev.entities.*;
 
 import java.util.*;
-import java.util.Map;
 
 public class BFS {
     Creature creature;
@@ -25,18 +21,17 @@ public class BFS {
     }
 
     Queue<Coordinates> q = new LinkedList<>();
-    Map<Coordinates, Coordinates> parentMap = new HashMap<>();
+    java.util.Map<Coordinates, Coordinates> parentMap = new HashMap<>();
 
     public List<Coordinates> findShortestPathToTarget(Simulation simulation) {
         Set<Coordinates> checkedCoordinates = new HashSet<>();
         q.add(creature.coordinates);
-        Coordinates координатыКролика = creature.coordinates;
 
         while (!q.isEmpty()) {
             Coordinates currentCoordinate = q.remove();
             if (!checkedCoordinates.contains(currentCoordinate)) {
 
-                if (typeOfOurTarget.getClass().isInstance(Mapp.myMap.get(currentCoordinate))) {
+                if (typeOfOurTarget.getClass().isInstance(simulation.MAP.getEntity(currentCoordinate))) {
 
                     List<Coordinates> path = buildPath(currentCoordinate);
                     return path;
@@ -59,8 +54,6 @@ public class BFS {
                             parentMap.put(neighborCoordinate, currentCoordinate); // Сохраняем родительскую координату
                         }
                     }
-
-                    creatureFortest = null;
                 }
             }
         }

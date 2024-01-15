@@ -1,6 +1,8 @@
 package bondarev.entities;
 
 import bondarev.*;
+import bondarev.Map;
+import bondarev.Simulation;
 
 import java.util.*;
 
@@ -25,7 +27,7 @@ public class Predator extends Creature {
         Set<Coordinates> availableMovesCells = super.getAvailableMovesCells(simulation);
         Set<Coordinates> copidedAvailableMovesCells = new HashSet<>(availableMovesCells);
         for (Coordinates cell : availableMovesCells) {
-            if (Mapp.myMap.get(cell) instanceof Grass || Mapp.myMap.get(cell) instanceof Predator) {
+            if (simulation.MAP.getEntity(cell) instanceof Grass || simulation.MAP.getEntity(cell) instanceof Predator) {
                 copidedAvailableMovesCells.remove(cell);
             }
         }

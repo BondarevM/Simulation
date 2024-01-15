@@ -5,6 +5,7 @@ import java.util.*;
 import bondarev.entities.*;
 
 public class Simulation {
+    public Map MAP = new Map();
     private String halfOfSpace = " ";
     private final String EMPTY_CELL = " □ " + halfOfSpace;
     private final String PREDATOR_CELL = " \uD83E\uDD81 ";
@@ -19,10 +20,10 @@ public class Simulation {
             for (int x = 0; x <= 40; x++) {
                 Coordinates coordinates = new Coordinates(x, y);
 
-                if (simulation.isCellEmpty(coordinates)) {
+                if (MAP.isCellEmpty(coordinates)) {
                     line += EMPTY_CELL;
                 } else {
-                    line += getEntityImage(simulation.getEntity(coordinates));
+                    line += getEntityImage(simulation.MAP.getEntity(coordinates));
                 }
             }
             System.out.println(line);
@@ -48,24 +49,12 @@ public class Simulation {
         return "";
     }
 
-    public boolean isCellEmpty(Coordinates coordinates) {
-        return !Mapp.myMap.containsKey(coordinates);
-    }
-
-    public Entity getEntity(Coordinates coordinates) {
-        return Mapp.myMap.get(coordinates);
-    }
-
-    public void setEntity(Coordinates coordinates, Entity entity) {
-        entity.coordinates = coordinates;
-        Mapp.myMap.put(coordinates, entity);
-    }
-
     public void checkingNumberOfCreatures() {
         List<Entity> listOfHerbivores = new ArrayList<>();
         List<Entity> listOfGrasses = new ArrayList<>();
+        HashMap<Coordinates, Entity> copiedMap = MAP.getCopiedMap();
 
-        for (Map.Entry<Coordinates, Entity> entry : Mapp.myMap.entrySet()) {
+        for (java.util.Map.Entry<Coordinates, Entity> entry : copiedMap.entrySet()) {
             if (entry.getValue() instanceof Herbivore) {
                 listOfHerbivores.add(entry.getValue());
             }
@@ -83,23 +72,24 @@ public class Simulation {
         }
     }
 
-    public int getRandomNumberX(){
+    public int getRandomNumberX() {
         return (int) ((Math.random() * (40 - 0)) + 0);
     }
-    public int getRandomNumberY(){
+
+    public int getRandomNumberY() {
         return (int) ((Math.random() * (10 - 0)) + 0);
     }
 
     private void setGrasses() {
         int counter = 0;
 
-        while (counter != 3){
+        while (counter != 3) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
                 counter++;
             }
         }
@@ -108,21 +98,17 @@ public class Simulation {
     private void setHerbivores() {
         int counter = 0;
 
-        while (counter != 3){
+        while (counter != 3) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
                 counter++;
             }
         }
 
-    }
-
-    public void removeEntity(Coordinates coordinates) {
-        Mapp.myMap.remove(coordinates);
     }
 
     public void gameLoop() {
@@ -130,10 +116,7 @@ public class Simulation {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-
-                for (int i = 0; i < 1; i++) {
-                    System.out.println(" ");
-                }
+                System.out.println(" ");
 
                 new Simulation().render(new Simulation());
                 checkingNumberOfCreatures();
@@ -144,8 +127,7 @@ public class Simulation {
     }
 
     public void makeAction() {
-        for (Map.Entry<Coordinates, Entity> entry : Mapp.myMap.entrySet()) {
-            Coordinates coordinates = entry.getKey();
+        for (java.util.Map.Entry<Coordinates, Entity> entry : MAP.getCopiedMap().entrySet()) {
             Entity entity = entry.getValue();
 
             if (entity instanceof Creature) {
@@ -165,13 +147,13 @@ public class Simulation {
     private void setDefaultTreesPosition() {
         int counter = 0;
 
-        while (counter != 10){
+        while (counter != 10) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Tree(new Coordinates(X, Y)));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Tree(new Coordinates(X, Y)));
                 counter++;
             }
         }
@@ -180,13 +162,13 @@ public class Simulation {
     private void setDefaultRocksPosition() {
         int counter = 0;
 
-        while (counter != 10){
+        while (counter != 10) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Rock(new Coordinates(X, Y)));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Rock(new Coordinates(X, Y)));
                 counter++;
             }
         }
@@ -195,13 +177,13 @@ public class Simulation {
     private void setDefaultGrassesPosition() {
         int counter = 0;
 
-        while (counter != 7){
+        while (counter != 7) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Grass(new Coordinates(X, Y)));
                 counter++;
             }
         }
@@ -210,13 +192,13 @@ public class Simulation {
     private void setDefaultPredatorsPosition() {
         int counter = 0;
 
-        while (counter != 5){
+        while (counter != 5) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Predator(new Coordinates(X, Y), 3, 1,1));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Predator(new Coordinates(X, Y), 3, 1, 1));
                 counter++;
             }
         }
@@ -225,13 +207,13 @@ public class Simulation {
     private void setDefaultHerbivoresPosition() {
         int counter = 0;
 
-        while (counter != 5){
+        while (counter != 5) {
             int X;
             int Y;
             X = getRandomNumberX();
             Y = getRandomNumberY();
-            if(isCellEmpty(new Coordinates(X,Y))){
-                setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
+            if (MAP.isCellEmpty(new Coordinates(X, Y))) {
+                MAP.setEntity(new Coordinates(X, Y), new Herbivore(new Coordinates(X, Y), 3, 1));
                 counter++;
             }
         }

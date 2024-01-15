@@ -2,7 +2,7 @@ package bondarev.entities;
 
 import bondarev.Coordinates;
 
-public  abstract class Entity {
+public abstract class Entity {
     public Coordinates coordinates;
 
     public Entity(Coordinates coordinates) {
