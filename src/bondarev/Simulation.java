@@ -111,19 +111,15 @@ public class Simulation {
 
     }
 
-    public void gameLoop() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println(" ");
+    public void gameLoop() throws InterruptedException {
+        while (true){
+            System.out.println(" ");
 
-                new Simulation().render(new Simulation());
-                checkingNumberOfCreatures();
-                makeAction();
-            }
-        };
-        timer.scheduleAtFixedRate(task, 0, 2000);
+            new Simulation().render(new Simulation());
+            checkingNumberOfCreatures();
+            makeAction();
+            Thread.sleep(2000);
+        }
     }
 
     public void makeAction() {
@@ -147,7 +143,7 @@ public class Simulation {
     private void setDefaultTreesPosition() {
         int counter = 0;
 
-        while (counter != 10) {
+        while (counter != 20) {
             int X;
             int Y;
             X = getRandomNumberX();
@@ -162,7 +158,7 @@ public class Simulation {
     private void setDefaultRocksPosition() {
         int counter = 0;
 
-        while (counter != 10) {
+        while (counter != 20) {
             int X;
             int Y;
             X = getRandomNumberX();
