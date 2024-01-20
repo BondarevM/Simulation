@@ -1,4 +1,4 @@
-The project was implemented according to the characteristics presented in [this course](https://zhukovsd.github.io/java-backend-learning-course/Projects/Simulation/).
+The project was implemented according to the requirements presented in [this course](https://zhukovsd.github.io/java-backend-learning-course/Projects/Simulation/).
 
 The project models the behavior of predators and herbivores. Herbivores move towards the grass, predators chase the herbivores.
 
