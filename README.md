@@ -9,4 +9,3 @@ Herbivores are depicted with a picture of a rabbit, predators with a picture of 
 When the program starts, the location of objects is generated randomly.
 
 Below is a screenshot of the program.
-![image](https://github.com/BondarevM/Simulation/assets/99888305/9421c14f-e09c-458e-b7bc-80db787c5a2b)

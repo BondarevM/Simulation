@@ -5,14 +5,16 @@ import java.util.*;
 import bondarev.entities.*;
 
 public class Simulation {
+
+    // □
     public Map MAP = new Map();
-    private String halfOfSpace = " ";
-    private final String EMPTY_CELL = " □ " + halfOfSpace;
-    private final String PREDATOR_CELL = " \uD83E\uDD81 ";
-    private final String HERBIVORE_CELL = " \uD83D\uDC07 ";
-    private final String TREE_CELL = " \uD83C\uDF33 ";
-    private final String ROCK_CELL = " ⛰ ";
-    private final String GRASS_CELL = " ✿ ";
+    private final String EMPTY_CELL = " ⬛ ";
+    private final String PREDATOR_CELL = " \uD83D\uDC3A ";
+    private final String HERBIVORE_CELL = " \uD83E\uDD8C ";
+    private final String TREE_CELL = " \uD83C\uDF33  ";
+    private final String ROCK_CELL = " \uD83C\uDFD4\uFE0F ";
+    private final String GRASS_CELL = " \uD83C\uDF43 ";
+
 
     public void render(Simulation simulation) {
         for (int y = 10; y >= 0; y--) {
@@ -112,7 +114,7 @@ public class Simulation {
     }
 
     public void gameLoop() throws InterruptedException {
-        while (true){
+        while (true) {
             System.out.println(" ");
 
             new Simulation().render(new Simulation());
